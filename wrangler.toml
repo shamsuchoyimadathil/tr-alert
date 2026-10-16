@@ -10,7 +10,7 @@ crons = ["*/2 * * * *"]
 # npx wrangler kv namespace create STATE  -> paste the returned id below
 [[kv_namespaces]]
 binding = "STATE"
-id = "PASTE_YOUR_KV_NAMESPACE_ID_HERE"
+id = "31ac5163d6904f43a3413f190e1c239a"
 
 [vars]
 # Primary feed. Comma-separated to set your own fallback order,
