@@ -1,0 +1,17 @@
+{
+  "name": "tr-bot",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "XAUUSD 15m EMA 21/50 crossover alerts to Telegram, on Cloudflare Workers",
+  "scripts": {
+    "check": "node scripts/check-feed.mjs",
+    "test": "node --test \"test/*.test.mjs\"",
+    "dev": "wrangler dev --test-scheduled",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail"
+  },
+  "devDependencies": {
+    "wrangler": "^4.20.0"
+  }
+}

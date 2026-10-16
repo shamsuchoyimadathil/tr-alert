@@ -1,0 +1,42 @@
+name = "tr-bot"
+main = "src/index.js"
+compatibility_date = "2025-09-01"
+
+# Poll every 2 minutes: 720 calls/day, inside the Twelve Data free 800/day budget,
+# and the worker skips polling entirely while the gold market is closed.
+[triggers]
+crons = ["*/2 * * * *"]
+
+# npx wrangler kv namespace create STATE  -> paste the returned id below
+[[kv_namespaces]]
+binding = "STATE"
+id = "PASTE_YOUR_KV_NAMESPACE_ID_HERE"
+
+[vars]
+# Primary feed. Comma-separated to set your own fallback order,
+# e.g. "yahoo,binance". Missing providers are appended automatically.
+PROVIDER = "twelvedata"
+
+SYMBOL = "XAU/USD"       # Twelve Data symbol
+YAHOO_SYMBOL = "GC=F"    # fallback: COMEX gold futures
+BINANCE_SYMBOL = "XAUTUSDT"  # last resort: tokenized gold
+
+INTERVAL = "15min"
+OUTPUTSIZE = "300"       # candles fetched per poll (EMA warmup)
+FAST_LEN = "21"
+SLOW_LEN = "50"
+
+# Live crossing repaints. A flip only alerts once the EMAs separate by this much
+# of price (0.02% ~= $0.90 at gold 4400), and never more often than COOLDOWN_MIN.
+MIN_GAP_PCT = "0.02"
+COOLDOWN_MIN = "10"
+SEND_FADE_NOTICE = "true"
+
+FAIL_ALERT_AFTER = "3"   # consecutive failed polls before you get told
+IGNORE_MARKET_HOURS = "false"
+
+# Secrets (never put these here — use `npx wrangler secret put NAME`):
+#   TWELVEDATA_KEY, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID, TRIGGER_SECRET
+
+[observability]
+enabled = true
